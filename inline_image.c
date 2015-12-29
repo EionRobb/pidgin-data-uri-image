@@ -15,6 +15,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
+#ifndef PURPLE_PLUGINS
+#define PURPLE_PLUGINS 1
+#endif
+
 #include <string.h>
  
 #include "conversation.h"
