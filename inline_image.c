@@ -1,8 +1,13 @@
 /*
+ * purple
+ *
+ * Purple is the legal property of its developers, whose names are too numerous
+ * to list here.  Please refer to the COPYRIGHT file distributed with this
+ * source distribution.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
+ * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -35,6 +40,7 @@ writing_msg_cb(PurpleAccount *account, const char *who, char **message,
 	PurpleConnectionFlags features;
 	xmlnode *root, *img;	
 	gboolean changed_message = FALSE;
+	gchar *htmlmessage;
 	
 	features = purple_conversation_get_features(conv);
 	
@@ -42,7 +48,8 @@ writing_msg_cb(PurpleAccount *account, const char *who, char **message,
 		return FALSE;
 	}
 	
-	root = xmlnode_from_str(*message, -1);
+	htmlmessage = g_strconcat("<html>", *message, "</html>", NULL);
+	root = xmlnode_from_str(htmlmessage, -1);
 	
 	for(img = xmlnode_get_child(root, "img");
 		img;
@@ -90,6 +97,7 @@ writing_msg_cb(PurpleAccount *account, const char *who, char **message,
 		*message = xmlnode_to_str(root, NULL);
 	}
 	xmlnode_free(root);
+	g_free(htmlmessage);
 	
 	return FALSE;
 }
